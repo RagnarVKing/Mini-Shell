@@ -242,6 +242,8 @@ checker_main() {
 
     tmpdir="$(mktemp -d)"
     cp -R ./* "$tmpdir"
+    cp ./.checkpatch.conf "$tmpdir"
+    cp ./.shellcheckrc "$tmpdir"
 
     LOG_INFO "Running checker..."
 
