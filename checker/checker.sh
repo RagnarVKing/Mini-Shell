@@ -8,7 +8,7 @@ cp -r "$CHECKER_DATA_DIRECTORY"/../tests ..
 # Everything happens in the tests/ directory.
 pushd ../tests > /dev/null || exit 1
 
-echo -e "### RUNING LINTER\n\n"
+echo -e "\n\n### RUNING LINTER\n\n"
 make lint
 
 echo -e "\n\n### RUNING CHECKER\n\n"
