@@ -185,6 +185,8 @@ docker_interactive() {
 
     tmpdir="$(mktemp -d)"
     cp -R ./* "$tmpdir"
+    cp ./.checkpatch.conf "$tmpdir"
+    cp ./.shellcheckrc "$tmpdir"
 
     docker run --rm -it \
             --mount type=bind,source="$tmpdir",target="$MOUNT_PROJECT_DIRECTORY" \
