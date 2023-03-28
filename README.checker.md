@@ -33,12 +33,14 @@ In order to set up the repository, do the following:
 
 1. Make a **private** fork of this repository.
    In the right corner you can find the fork button.
-   After clicking it, the following should be prompted at you:
+   After clicking it, a prompt similar to the one below will be offered:
 
-   ![private_fork](./img/private_fork.png)
+   ![Private Fork](./img/private-fork.png)
 
    Select your user as the namespace for your fork.
    Make sure the visibility level is set to **Private**.
+   Note that the image above is a sample for user `razvan.deaconescu` and for repository `assignment-mini-libc`.
+   Adapt it to your needs.
 
 1. Clone the repository locally:
 
