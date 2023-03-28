@@ -59,6 +59,9 @@ Do frequent Git commits with your changes to make sure you have a history of you
 
 ## Local Checker
 
+For a local run, you need to have Docker installed.
+See instructions [here](https://docs.docker.com/engine/install/).
+
 To run the checker locally inside a Docker container, use the `local.sh` script.
 
 First, build the container:
