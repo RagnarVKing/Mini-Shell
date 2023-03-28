@@ -127,7 +127,7 @@ For this:
    $ make pack
    ```
 
-   A file called `src.zip` will be created.
+   A file called `src.zip` will be created in the repository root (the parent directory of `src/`).
 
 1. Access the assignment submission entry on Moodle and submit the archive there.
    After submitting, a GitLab run will be triggered with VMChecker.
