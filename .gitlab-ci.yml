@@ -26,6 +26,6 @@ build:
 checker:
     stage: test
     image:
-        name: gitlab.cs.pub.ro:5050/operating-systems/assignment-template
+        name: gitlab.cs.pub.ro:5050/operating-systems/assignment-mini-shell
     script:
         - echo ""
