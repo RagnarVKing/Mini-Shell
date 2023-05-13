@@ -15,5 +15,10 @@ $(TARGET): build_parser $(OBJ) $(OBJ_PARSER)
 build_parser:
 	$(MAKE) -C $(UTIL_PATH)/parser/
 
+pack: clean
+	-rm -f ../src.zip
+	zip -r ../src.zip *
+
 clean:
+	-rm -f ../src.zip
 	-rm -rf $(OBJ) $(OBJ_PARSER) $(TARGET) *~
