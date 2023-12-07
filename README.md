@@ -43,10 +43,6 @@ no such file or directory
 
 > **_NOTE:_** Using the `cd` command without any arguments or with more than one argument doesn't affect the current directory path.
 > Make sure this edge case is handled in a way that prevents crashes.
->
-> **_BONUS 1:_** You can implement `cd` (without parameters) which will change the current directory to `$HOME` variable, if defined.
->
-> **_BONUS 2:_** You can implement `cd -` which will change the current directory to `$OLDPWD` variable, if defined.
 
 #### Closing the Shell
 
@@ -193,6 +189,8 @@ The support code consists of three directories:
   You will have to implement missing parts marked as `TODO` items.
 
 - `util/` stores a parser to be used as support code for implementing the assignment.
+  For more information, you can check the `util/parser/README.md` file.
+  You can use this parser or write your own.
 
 - `tests/` are tests used to validate (and grade) the assignment.
 
@@ -213,8 +211,30 @@ Tests are located in the `tests/` directory.
 
 ```console
 student@so:~/.../assignment-mini-shell/tests$ ls -F
-Makefile  run_all.sh*  _test/
+Makefile  grade.sh*  run_all.sh*  _test/
 ```
+
+To test and grade your assignment solution, enter the `tests/` directory and run `grade.sh`.
+Note that this requires linters being available.
+The easiest is to use a Docker-based setup with everything installed, as shown in the section ["Running the Linters"](#running-the-linters).
+When using `grade.sh` you will get grades for correctness (maximum `90` points) and for coding style (maximum `10` points).
+A successful run will provide you an output ending with:
+
+```console
+### GRADE
+
+
+Checker:                                                         90/ 90
+Style:                                                           10/ 10
+Total:                                                          100/100
+
+
+### STYLE SUMMARY
+
+
+```
+
+### Running the Checker
 
 To run the checker and everything else required, use the `make check` command in the `tests/` directory:
 
@@ -273,7 +293,23 @@ test_01.txt  test_03.txt  test_05.txt  test_07.txt  test_09.txt  test_11.txt  te
 test_02.txt  test_04.txt  test_06.txt  test_08.txt  test_10.txt  test_12.txt  test_14.txt  test_16.txt  test_18.txt
 ```
 
-### Debug
+### Running the Linters
+
+To run the linters, use the make lint command in the `tests/` directory:
+
+```console
+student@so:~/.../assignment-mini-shell/tests/$ make lint
+[...]
+cd .. && checkpatch.pl -f checker/*.sh tests/*.sh
+[...]
+cd .. && cpplint --recursive src/ tests/ checker/
+[...]
+cd .. && shellcheck checker/*.sh tests/*.sh
+```
+
+Note that the linters have to be installed on your system: [`checkpatch.pl`](https://.com/torvalds/linux/blob/master/scripts/checkpatch.pl), [`cpplint`](https://github.com/cpplint/cpplint), [`shellcheck`](https://www.shellcheck.net/) with certain configuration options.
+
+### Debugging
 
 To inspect the differences between the output of the mini-shell and the reference binary set `DO_CLEANUP=no` in `tests/_test/run_test.sh`.
 To see the results of the tests, you can check `tests/_test/outputs/` directory.
