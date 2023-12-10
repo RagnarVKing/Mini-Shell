@@ -5,13 +5,7 @@
 rm -fr ../tests/
 cp -r "$CHECKER_DATA_DIRECTORY"/../tests ..
 
-# Everything happens in the tests/ directory.
+# Checking and grading happens in the tests/ directory.
 pushd ../tests > /dev/null || exit 1
-
-echo -e "\n\n### RUNING CHECKER\n\n"
-make check
-
-echo -e "\n\n### RUNING LINTER\n\n"
-make lint
-
+./grade.sh
 popd > /dev/null || exit 1
