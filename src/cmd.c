@@ -10,7 +10,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <linux/limits.h>
-#include <fcntl.h>
 
 #include "cmd.h"
 #include "utils.h"
@@ -24,22 +23,30 @@
  */
 static bool shell_cd(word_t *dir)
 {
-	/* TODO: Execute cd. */
+    /* TODO: Execute cd or pwd. */
     if (dir == NULL) {
         fprintf(stderr, "cd: missing argument\n");
         return false;
     }
 
-    // Get the directory path
     char *path = get_word(dir);
 
-    // Change the current working directory
-    if (chdir(path) != 0) {
-        perror("chdir");
-        return false;
+    if (strcmp(path, "pwd") == 0) {
+        char cwd[PATH_MAX];
+        if (getcwd(cwd, sizeof(cwd)) != NULL) {
+            fprintf(stdout, "%s\n", cwd);
+            return true;
+        } else {
+            perror("getcwd");
+            return false;
+        }
+    } else {
+        if (chdir(path) != 0) {
+            perror("chdir");
+            return false;
+        }
+        return true;
     }
-
-    return true;
 }
 
 /**
@@ -242,7 +249,7 @@ static bool run_on_pipe(command_t *cmd1, command_t *cmd2, int level,
 {
 	/* TODO: Redirect the output of cmd1 to the input of cmd2. */
    
-        int pipe_fd[2];
+    int pipe_fd[2];
 
     if (pipe(pipe_fd) == -1) {
         perror("pipe");
@@ -256,14 +263,11 @@ static bool run_on_pipe(command_t *cmd1, command_t *cmd2, int level,
     }
 
     if (pid1 == 0) {
-        // Child process (cmd1)
-        close(pipe_fd[0]);  // Close unused read end of the pipe
+        close(pipe_fd[0]);
 
-        // Redirect standard output to the write end of the pipe
         dup2(pipe_fd[1], STDOUT_FILENO);
         close(pipe_fd[1]);
 
-        // Execute the first command
         int status1 = parse_command(cmd1, level + 1, father);
         exit(status1);
     }
@@ -275,23 +279,18 @@ static bool run_on_pipe(command_t *cmd1, command_t *cmd2, int level,
     }
 
     if (pid2 == 0) {
-        // Child process (cmd2)
-        close(pipe_fd[1]);  // Close unused write end of the pipe
+        close(pipe_fd[1]);
 
-        // Redirect standard input to the read end of the pipe
         dup2(pipe_fd[0], STDIN_FILENO);
         close(pipe_fd[0]);
 
-        // Execute the second command
         int status2 = parse_command(cmd2, level + 1, father);
         exit(status2);
     }
 
-    // Parent process
     close(pipe_fd[0]);
     close(pipe_fd[1]);
 
-    // Wait for both child processes to finish
     int status1, status2;
     waitpid(pid1, &status1, 0);
     waitpid(pid2, &status2, 0);
